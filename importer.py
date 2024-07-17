@@ -68,24 +68,47 @@ def remove_header(contents):
     return contents
 
 
+re_bullet = re.compile(r"^- \[(.)\] ")
+
+
 def make_children(title, contents, assets):
     children = []
     for line in contents.split("\n"):
-        children.append(
-            {
-                "object": "block",
-                "paragraph": {
-                    "rich_text": [
-                        {
-                            "text": {
-                                "content": line,
-                            },
-                        }
-                    ],
-                    "color": "default",
+        match = re_bullet.match(line)
+        if match:
+            children.append(
+                {
+                    "object": "block",
+                    "to_do": {
+                        "rich_text": [
+                            {
+                                "type": "text",
+                                "text": {
+                                    "content": line[match.end() :],
+                                },
+                            }
+                        ],
+                        "checked": match.group(1) == "X",
+                    },
                 },
-            },
-        )
+            )
+            continue
+        else:
+            children.append(
+                {
+                    "object": "block",
+                    "paragraph": {
+                        "rich_text": [
+                            {
+                                "text": {
+                                    "content": line,
+                                },
+                            }
+                        ],
+                        "color": "default",
+                    },
+                },
+            )
 
     for asset in assets:
         if asset.endswith(".3gp"):

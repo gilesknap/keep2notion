@@ -1,0 +1,39 @@
+# Some secret values for the individual user's Notion account
+
+# rename this file to config.yaml and fill in the values below
+
+# 1. Goto https://www.notion.so/profile/integrations and create a new integration
+# 2. Copy the secret token and paste it below
+integration_token: secret_TOKEN
+
+# 3. In Notion create a full page database and add the following properties:
+#    - Date (Date type)
+#    - Colour (text type)
+#    Also enable the database to be accessed via the API using the 'Connect To'
+#    option in the database settings choose your integration by name.
+# 4. Use copy link to find the database_id and paste that below
+database_id: url - first value after the last / of DB copy link
+
+# 5. Create a private repository on GitHub to store the images from the Assets
+#    folder there - create a PAT that has access to the repository and paste it below.
+images_url: https://[YOUR GitHub Name]:ghp_[YOUR GitHub PAT]@raw.githubusercontent.com/[YOUR GitHub Name]/[YOUR GitHub Repo]/main/
+
+# 6. I cheated and converted the Google Keep notes to Markdown using obsidian
+#    first - then decided Notion was nicer but the conversion from Markdown to Notion
+#    was easier than direct from Google Keep
+# 7. Paste a Path to the directory containing Markdown files below
+source_folder: /home/giles/gilesVault/GoogleKeep
+# leave move_folder blank if you don't want to move the files after upload
+move_folder: /home/giles/gilesVault/GoogleKeep/Uploaded
+
+
+
+# NOTE: I used a private github repo to store the assets - Notion tries really
+# hard to avoid you uploading files with their API and therefore we need
+# an addressable, secure URL which you can add /filename to to get the
+# raw file.
+#
+# I could not find anything except GitHub that would allow me to do this
+# Google Drive, Dropbox, OneDrive all force you to export each file individually
+# in order to get it raw. If anyone knows of a better way please let me know.
+#

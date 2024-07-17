@@ -135,6 +135,16 @@ def make_children(title, contents, assets):
                     "external": {
                         "url": config.get("images_url") + asset,
                     },
+                    "caption": [
+                        {
+                            "text": {
+                                "content": asset,
+                            },
+                            "annotations": {
+                                "code": True,
+                            },
+                        }
+                    ],
                 },
             }
         )

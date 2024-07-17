@@ -69,13 +69,20 @@ def remove_header(contents):
 
 
 re_bullet = re.compile(r"^- \[(.)\] ")
+re_http = re.compile(r"http.?:\/\/[^ '\"]*")
 
 
 def make_children(title, contents, assets):
     children = []
     for line in contents.split("\n"):
-        match = re_bullet.match(line)
-        if match:
+        href = re_http.search(line)
+        if href:
+            print("link to", href.group())
+            link = {"url": href.group()}
+        else:
+            link = None
+        bullet = re_bullet.match(line)
+        if bullet:
             children.append(
                 {
                     "object": "block",
@@ -84,11 +91,13 @@ def make_children(title, contents, assets):
                             {
                                 "type": "text",
                                 "text": {
-                                    "content": line[match.end() :],
+                                    "content": line[bullet.end() :],
+                                    "link": link,
                                 },
+                                "href": href.group() if href else None,
                             }
                         ],
-                        "checked": match.group(1) == "X",
+                        "checked": bullet.group(1) == "X",
                     },
                 },
             )
@@ -102,7 +111,9 @@ def make_children(title, contents, assets):
                             {
                                 "text": {
                                     "content": line,
+                                    "link": link,
                                 },
+                                "href": href.group() if href else None,
                             }
                         ],
                         "color": "default",
@@ -159,4 +170,4 @@ for i, filename in enumerate(directory.glob("*.md")):
         move(filename, move_folder)
 
 
-print("Markdown files have been imported into the Notion database.")
+print(f"{i} Markdown files have been imported into the Notion database.")
